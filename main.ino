@@ -37,6 +37,9 @@ void loop() {
   char msg[100];
   unsigned long now = millis();
   if (update_serial_at > 0 && now >= update_serial_at) {
+    unsigned int rpm = 2 * (timer1_counts[9] - timer1_counts[4]);
+    sprintf(msg, "rpm:%u\n", rpm);
+    /*
     sprintf(msg, "%3ld.%ld %5u %5u %5u %5u %5u %5u %5u %5u %5u %5u | %5u %5u %5u %5u %5u %5u %5u %5u %5u\n",
                   timer3_toggle_count/10, timer3_toggle_count % 10,
                   timer1_counts[0], timer1_counts[1],
@@ -52,6 +55,7 @@ void loop() {
                   );
     //unsigned int i = 5 + (6 * (timer3_toggle_count % 10));
     //msg[i] = '<';
+    */
     Serial.print(msg);
     update_serial_at = update_serial_at + 100;
   }
