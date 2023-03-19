@@ -1,8 +1,14 @@
 #include <Adafruit_RGBLCDShield.h>
 
+// How many times timer 1 has overflowed.
 extern volatile unsigned long timer1_overflow_count;
+// The most recent capture value for timer 1.
 extern volatile unsigned int timer1_capture;
+// The overflow value when timer 1 was captured.
 extern volatile unsigned long timer1_cap_overflow;
+// The most recent 10 timer 1 counts from when timer 3 fired.
+extern volatile unsigned int timer1_counts[12];
+
 
 #define LCD_RED 0x1
 #define LCD_YELLOW 0x3
@@ -28,6 +34,7 @@ static long next_update = 0;
 
 static bool is_running = false;
 static long running_millis = 0;
+static int max_rpm = 0;
 
 void ui_setup() {
   lcd.begin(16, 2);
@@ -37,16 +44,19 @@ void ui_setup() {
 static unsigned long show_rpm(unsigned long now) {
   char msg[17];
 
-  // Most recent reading - 500ms prior, times 2.
-  unsigned int rpm = 2 * (timer1_counts[9] - timer1_counts[4]);
-
-  // Find the highest RPM across five readings from the previous second.
-  unsigned int maxrpm = 0;
-  for (int i = 0; i < 5; i++) {
-    unsigned int j = 2 * (timer1_counts[i + 5] - timer1_counts[i]);
-    if (j > maxrpm) {
-      maxrpm = j;
-    }
+  // RPM is the most recent reading - 500ms prior, times 2.
+  // Different gaps allow for different measurement periods:
+  //   1 = 1/12 of a second.
+  //   2 = 1/6 of a second.
+  //   3 = 1/4 of a second.
+  //   4 = 1/3 of a second.
+  //   6 = 1/2 of a second.
+  //   8 = 2/3 of a second.
+  //   9 = 3/4 of a second.
+  const int gap = 6;
+  unsigned int rpm = 2 * (timer1_counts[11] - timer1_counts[11 - gap]);
+  if (rpm > max_rpm) {
+    max_rpm = rpm;
   }
 
   // Calculate runtime
@@ -55,11 +65,11 @@ static unsigned long show_rpm(unsigned long now) {
     runtime = (millis() - running_millis);
   }
 
-  sprintf(msg, "RPM %5u %4d.%d", rpm, (unsigned int)(runtime / 1000), (int)(runtime % 10));
+  sprintf(msg, "Max %5u %4d.%d", max_rpm, (unsigned int)(runtime / 1000), (int)(runtime % 10));
   lcd.setCursor(0, 0);
   lcd.print(msg);
 
-  sprintf(msg, "Max %5u", maxrpm);
+  sprintf(msg, "RPM %5u", rpm);
   lcd.setCursor(0, 1);
   lcd.print(msg);
 
@@ -158,6 +168,7 @@ void ui_loop() {
         // While running, running_timer_millis is the start time.
         is_running = true;
         running_millis = millis();
+        max_rpm = 0;
       }
     }
     if (n < 3) {

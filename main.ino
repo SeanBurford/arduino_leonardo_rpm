@@ -6,12 +6,15 @@
 // Input Capture Pin: Timer 1 Input Capture
 #define ICAP_PIN 4
 
+// The most recent 10 timer 1 counts from when timer 3 fired.
+extern volatile unsigned int timer1_counts[12];
+
 unsigned long update_serial_at = 0;
 
 void setup() {
   pinMode(COUNT_PIN, INPUT);
   // Enable internal pullup (if there is no external pullup).
-  //digitalWrite(COUNT_PIN, HIGH);
+  digitalWrite(COUNT_PIN, HIGH);
 
   pinMode(ICAP_PIN, INPUT);
 

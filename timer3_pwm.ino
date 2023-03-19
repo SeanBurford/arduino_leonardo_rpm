@@ -1,6 +1,6 @@
 volatile unsigned long timer3_toggle_count = 0;
-volatile unsigned int timer1_counts[10] = {
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+volatile unsigned int timer1_counts[12] = {
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
 // Triggered when TCNT3 = 0 if bit TOIE3 is set in TIMSK3.
@@ -20,7 +20,9 @@ ISR (TIMER3_COMPA_vect) {
   timer1_counts[6] = timer1_counts[7];
   timer1_counts[7] = timer1_counts[8];
   timer1_counts[8] = timer1_counts[9];
-  timer1_counts[9] = tcnt1;
+  timer1_counts[9] = timer1_counts[10];
+  timer1_counts[10] = timer1_counts[11];
+  timer1_counts[11] = tcnt1;
   timer3_toggle_count++;
 }
 
@@ -42,14 +44,14 @@ static void start_timer3() {
   // Enable interrupts on match (TCNT = OCR3A)
   TIMSK3 = bit(OCIE3A);
 
-  // Configure counter to count to 6250 then go back to zero.
-  // With a 16MHz clock / prescaler 256, that takes 1/10 seconds.
+  // Configure counter to count to 20833 then reset to zero.
+  // With a 16MHz clock / prescaler 64, that takes 1/12.00019 seconds.
   // See Waveform mode 14 (pg. 133 of the ATMega32u4 datasheet).
-  ICR3 = 6250;  // Top: Count up to 6250.
-  OCR3A = 3125; // Enable OC3A output, 50% duty cycle.
+  ICR3 = 20833;  // Top: Count up to this value.
+  OCR3A = 10416; // Enable OC3A output, 50% duty cycle.
   // Set OC3A on compare match, clear at top.
   TCCR3A = bit(COM3A1) | bit(COM3A0) | bit(WGM31);
-  TCCR3B = bit(WGM33) | bit(WGM32) | bit(CS32);
+  TCCR3B = bit(WGM33) | bit(WGM32) | bit(CS31) | bit(CS30);
 
   sei();
 }
