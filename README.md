@@ -9,16 +9,16 @@ USB/serial connection in a format suitable for the Arduino IDE plotter tool.
 
 ### Pins
 
-12: (T1, input) signal being measured.
-
-5v: (power out) LCD shield power.
-gnd: (power out) LCD shield ground.
-scl: (i2c) LCD shield clock.
-sda: (i2c) LCD shield data.
+* 12: (T1, input) signal being measured.
+* 5v: (power out) LCD shield power.
+* gnd: (power out) LCD shield ground.
+* scl: (i2c) LCD shield clock.
+* sda: (i2c) LCD shield data.
 
 Optional:
-4: (ICP1, input) capture trigger (12Hz).
-5: (OC3A, output) capture trigger (12Hz).
+
+* 4: (ICP1, input) capture trigger (12Hz).
+* 5: (OC3A, output) capture trigger (12Hz).
 
 ### Theory
 
