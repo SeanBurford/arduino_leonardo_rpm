@@ -26,6 +26,9 @@ static bool buttons_pressed = false;
 // next_update is the millis() when a screen refresh is due.
 static long next_update = 0;
 
+static bool is_running = false;
+static long running_millis = 0;
+
 void ui_setup() {
   lcd.begin(16, 2);
   lcd.setBacklight(LCD_RED);
@@ -46,7 +49,13 @@ static unsigned long show_rpm(unsigned long now) {
     }
   }
 
-  sprintf(msg, "RPM %5u", rpm);
+  // Calculate runtime
+  unsigned long runtime = running_millis;
+  if (is_running == true) {
+    runtime = (millis() - running_millis);
+  }
+
+  sprintf(msg, "RPM %5u %4d.%d", rpm, (unsigned int)(runtime / 1000), (int)(runtime % 10));
   lcd.setCursor(0, 0);
   lcd.print(msg);
 
@@ -142,6 +151,23 @@ static unsigned long show_error(unsigned long now, unsigned int display_state) {
 void ui_loop() {
   long now = millis();
   if (now > next_update) {
+    // Update running status
+    unsigned int n = timer1_counts[9] - timer1_counts[8];
+    if (n > 10) {
+      if (is_running == false) {
+        // While running, running_timer_millis is the start time.
+        is_running = true;
+        running_millis = millis();
+      }
+    }
+    if (n < 3) {
+      if (is_running == true) {
+        // When stopped, running_timer_millis is the previous run time.
+        is_running = false;
+        running_millis = millis() - running_millis;
+      }
+    }
+
     if (display_state < 0) {
       display_state = 4;
     }
