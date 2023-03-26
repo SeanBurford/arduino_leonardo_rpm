@@ -33,6 +33,14 @@ trigger input capture on timer/counter 1 for a more accurate capture.
 In practice, collecting counts in an interrupt handler has been sufficient for
 a solid count.
 
+### Images
+
+![Hardware](img/hardware.png)
+
+![Connected to an oscilloscope](img/oscilloscope.png)
+
+![Arduino serial plot showing RPM](img/serial_plot.png)
+
 ### LCD Shield
 
 Manual and wiring diagram (page 22):
