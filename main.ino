@@ -40,7 +40,7 @@ void loop() {
   char msg[100];
   unsigned long now = millis();
   if (update_serial_at > 0 && now >= update_serial_at) {
-    unsigned int rpm = 2 * (timer1_counts[9] - timer1_counts[4]);
+    unsigned int rpm = 2 * (timer1_counts[11] - timer1_counts[11-6]);
     sprintf(msg, "rpm:%u\n", rpm);
     /*
     sprintf(msg, "%3ld.%ld %5u %5u %5u %5u %5u %5u %5u %5u %5u %5u | %5u %5u %5u %5u %5u %5u %5u %5u %5u\n",
