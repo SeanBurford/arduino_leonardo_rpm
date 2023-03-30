@@ -3,7 +3,7 @@
 ### Summary
 
 Measures the RPM of a 3.3v signal on pin 12 by counting the number of
-revolutions during a shorter period and extrapolating to one minute.
+revolutions during a short period and extrapolating to one minute.
 
 Displays the result on an Adafruit i2c 16x2 LCD and also outputs it on the
 USB/serial connection in a format suitable for the Arduino IDE plotter tool.
@@ -32,5 +32,3 @@ a solid count.
 
 The count is multiplied to extrapolate a one minute expected RPM, which results
 in 120 RPM steps in the output (half a second * 2 * 60).
-
-![Arduino serial plot showing RPM](../img/serial_plot_count.png)
