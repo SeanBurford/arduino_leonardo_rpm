@@ -32,3 +32,5 @@ a solid count.
 
 The count is multiplied to extrapolate a one minute expected RPM, which results
 in 120 RPM steps in the output (half a second * 2 * 60).
+
+![Arduino serial plot showing RPM](../img/serial_plot_count.png)
