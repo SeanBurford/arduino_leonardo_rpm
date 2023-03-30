@@ -11,8 +11,9 @@ USB/serial connection in a format suitable for the Arduino IDE plotter tool.
 ### Pins
 
 * 12: (T1, input) signal being measured.
+* 3.3v: (power out) Sensor power.
 * 5v: (power out) LCD shield power.
-* gnd: (power out) LCD shield ground.
+* gnd: (power out) LCD shield and sensor ground.
 * scl: (i2c) LCD shield clock.
 * sda: (i2c) LCD shield data.
 

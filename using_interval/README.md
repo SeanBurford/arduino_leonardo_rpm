@@ -10,11 +10,15 @@ USB/serial connection in a format suitable for the Arduino IDE plotter tool.
 
 ### Pins
 
-* 4: (ICP1, input) signal being measured.
+* 3.3v: (power out) Sensor power.
 * 5v: (power out) LCD shield power.
-* gnd: (power out) LCD shield ground.
+* gnd: (power out) LCD shield and sensor ground.
 * scl: (i2c) LCD shield clock.
 * sda: (i2c) LCD shield data.
+
+* 4: (Arduino Leonardo ICP1, input) signal being measured.
+or
+* 8: (Arduino Uno ICP1, input) signal being measured.
 
 ### Theory
 
