@@ -11,6 +11,8 @@ USB/serial connection in a format suitable for the Arduino IDE plotter tool.
 
 *  `using_count`: Count the number of rotations during a period, extrapolate
    for one minute.
+*  `using_intervale`: Time the interval between rotations, extrapolate for one
+   minute.
 
 ### Images
 
