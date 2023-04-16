@@ -1,6 +1,8 @@
 // Input Capture Pin: Timer 1 Input Capture
 #define ICAP_PIN 4
 
+#define MOTOR_PIN 6
+
 extern volatile unsigned int history[];
 
 unsigned long update_serial_at = 0;
@@ -9,6 +11,8 @@ void setup() {
   pinMode(ICAP_PIN, INPUT);
   // Enable internal pullup (if there is no external pullup).
   //digitalWrite(ICAP_PIN, HIGH);
+
+  pinMode(MOTOR_PIN, OUTPUT);
 
   // Reset timer prescalers
   GTCCR = bit(PSRSYNC);
@@ -39,6 +43,6 @@ void loop() {
     Serial.print(msg);
     update_serial_at = update_serial_at + 100;
   }
-
+  motor_loop(MOTOR_PIN);
   ui_loop();
 }
