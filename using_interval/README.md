@@ -48,4 +48,4 @@ https://www.tutorialspoint.com/arduino/arduino_dc_motor.htm
 To demonstrate the effect of debouncing and smoothing, here's what low speeds
 look like without smoothing enabled:
 
-![Arduino serial plot showing RPM](../img/serial_plot_interval_unsmooth.png)
+![Arduino serial plot showing RPM](../img/serial_plot_interval_unsmoothed.png)
